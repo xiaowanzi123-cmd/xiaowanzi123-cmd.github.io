@@ -1,0 +1,124 @@
+第三阶段
+第二天
+一.git命令
+    1.查看提交信息
+    git log
+    补充:
+    1)git add xxx xxx xxx
+        一次性暂存多个文件
+
+        $ git rm --cached 1.txt 2.txt
+        跟踪取消:把文件从git中拿出来，不再进行版本跟踪，但保留工作区的文件。 
+    2)git add -A
+        一次性暂存工作区所有修改的文件
+    3)git commit -a
+        跳过暂存,直接提交(untrached除外)
+    4)git add 目录名
+        暂存指定目录下所有修改的文件
+    git log --pretty=oneline
+
+    2.取消修改
+    分三种情况:
+    1)取消工作区的修改
+        文件被修改后还没有执行git add命令
+        git checkout -- 文件名
+        取消到上一次提交的情况
+    2)取消暂存区的修改
+        文件被修改之后执行了git add命令,但是还没有执行git commit命令
+        先撤销git add命令
+            git reset HEAD 文件名
+        然后再撤销工作区的修改
+            git checkout -- 文件名
+    3)取消分支上的修改
+        文件被修改后执行了git add 和git commit命令(已经提交了)
+        无法取消修改
+        使用版本回退
+        首先先使用git log查看每次提交的id,然后确定需要回退到哪个版本,再使用
+        git reset --hard id
+
+关于HEAD
+    就是一个存盘点,实现版本的控制
+    git将每一次的提交串成一条时间线,这条时间线就称为分支
+    默认只有一条分支,master,也称为主分支,而HEAD指向的就是当前分支
+
+    1.创建分支
+        git branch v1
+        将当前所在分支复制一条出来,起名为v1
+        看v1:如何创建成功
+            - 没有报错
+            - 下一个命令
+    2.查看当前仓库有哪些分支
+        git branch
+        前面有*的表示当前所在分支
+    3.切换分支
+        git checkout 分支名
+        在一条分支上的修改不会影响到其他分支上的内容
+
+        用git方式隐藏文件:
+        - 切换到新创建的v1分支:git checkout v1
+        - 删除想要隐藏的文件3.txt:rm 3.txt
+        - 提交的两步骤: 
+            git add -A
+            git commit -m "删除了3.txt"
+        - 此时在v1分支上完成了隐藏,想要查看3.txt文件就需要切换到master分支查看
+          git checkout master
+    4.分支的合并
+        git merge 分支名称
+        作用:将指定名称上的分支修改合并到当前分支上
+        在master上使用git merge v2
+        将v2的修改合并到master上,v2的内容不会变化,master的内容发生变化
+
+        操作步骤:
+            1.提交master
+            2.创建v2.1分支并切换到v2.1
+                git branch v2.1
+                git checkout v2.1
+            3.修改v2.1中2.txt的内容,并暂存提交
+                echo v2.1 > 2.txt
+                git commit -a
+            4.查看提交信息,观察master和v2.1的位置
+                git log --pretty=oneline
+            5.切换到master上,将2.1的修改合并,在查看提交信息
+                git checkout master
+                git log --pretty=oneline
+            6.查看2.txt的内容有没有变化
+    
+    5.分支的删除
+        git branch -d 分支名
+        删除指定分支
+        如果分支没有合并,则删除事变,可以强制删除
+        git branch -D 分支名
+        不能删除当前所在分支
+
+github的使用
+    http://github.com
+
+    1.注册登录
+        邮箱验证
+    2.创建远程仓库
+        右上角 + 选择new repository
+        在repository name中填写远程仓库的名称
+        其他都不管
+    3.选择https模式
+        在命令行中运行
+            git remote add origin 远程仓库地址
+            这句命令的作用:添加远程关联
+            git remote是固定语法
+            add 添加
+            origin 别名 指代后面远程仓库的地址
+        在运行
+            git push -u origin master
+            作用:将本地仓库的内容推送到远程仓库
+            git push
+            - u 第一次推送时添加,之后就不需要了
+                如果没有master分支就创建
+            origin 别名,指代添加远程关联是的地址
+            master 推送的分支
+    HTTPS和SSH
+        HTTPS每次推送都需要输入用户名和密码
+        SSH需要配置秘钥,配置成功后推送就不需要用户名和密码了
+
+        输入命令
+            ls -a ~/.ssh查看本机有没有秘钥
+
+视图界面工具的使用 GUI
