@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<button onclick="getData()">获取数据</button> 
+
+<script>
+    function getData(){
+        $.ajax({
+            url:"index.php",
+            success:function(res){
+                console.log(res);
+            }
+        })
+    }
+</script>
+<script src="./jquery-1.9.1.min.js"></script>
+</body>
+</html>
