@@ -7,17 +7,25 @@
 </head>
 <body>
 <button id="btn1">按钮1</button>
-<div id="box1"></div>
 <button id="btn2">按钮2</button>
-<div id="box2"></div>
+<div id="info"></div>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script>
     btn1.onclick = function(){
-        box1.innerHTML = "你好,小明!!!";
-        box2.innerHTML = "";
+        $.ajax({
+            url:"/xiaoming",
+            success:function(res){
+                console.log(res);
+            }
+        })
     }
     btn2.onclick = function(){
-        box2.innerHTML = "你好,小红!!!";
-        box1.innerHTML = "";
+        $.ajax({
+            url:"/xiaohong",
+            success:function(res){
+                console.log(res);
+            }
+        })
     }
 </script>
 </body>
